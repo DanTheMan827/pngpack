@@ -195,7 +195,7 @@ int main(int argc, char *argv[])
     } else {
       if (!fileExists(outFilename.c_str()))
       {
-        printf("File not found: %s\n", outFilename);
+        std::cout << "File not found: " << outFilename << "\n";
         return 1;
       }
 
