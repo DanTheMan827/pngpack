@@ -29,6 +29,10 @@
   #include "licenses.h"
 #endif
 
+#ifndef PATH_SEPARATOR
+  #define PATH_SEPARATOR '/'
+#endif
+
 #ifndef GIT_TAG
   #define GIT_TAG ""
 #endif
@@ -101,20 +105,13 @@ int showUsage(const char *exename)
 
 int main(int argc, char *argv[])
 {
-  const char *exename = strrchr(argv[0], '/');
+  const char *exename = strrchr(argv[0], PATH_SEPARATOR);
   if (exename) 
   {
     // skip past the last /
     ++exename;   
   } else {
-    exename = strrchr(argv[0], '\\');
-    if (exename)
-    {
-      ++exename;
-    } else {
-
-    exename = argv[0]; 
-    }
+    exename = argv[0];
   }
   #ifndef NOLICENSE
     if (argc == 2 && strcmp(argv[1], "l") == 0) return showLicense();
