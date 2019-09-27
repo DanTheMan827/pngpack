@@ -18,16 +18,7 @@
 */
 
 #include <iostream>
-
-int getPixelDataSize(int width, int height)
-{
-  return (width * height) * 4;
-}
-
-int getPixelOffset(int width, int height, int x, int y)
-{
-  return ((y * width) + x) * 4;
-}
+#include "pixeltools.h"
 
 void copyPixelData(uint8_t* sourceImage, int sourceImageWidth, int sourceImageHeight, int sourceRegionWidth, int sourceRegionHeight, int sourceRegionX, int sourceRegionY, uint8_t* destImage, int destImageWidth, int destImageHeight, int destRegionWidth, int destRegionHeight, int destRegionX, int destRegionY)
 {

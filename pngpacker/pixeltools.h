@@ -20,8 +20,8 @@
 #include <iostream>
 
 #ifndef PIXELTOOLS_H
-#define PIXELTOOLS_H
-int getPixelDataSize(int width, int height);
-int getPixelOffset(int width, int height, int x, int y);
-void copyPixelData(uint8_t *sourceImage, int sourceImageWidth, int sourceImageHeight, int sourceRegionWidth, int sourceRegionHeight, int sourceRegionX, int sourceRegionY, uint8_t *destImage, int destImageWidth, int destImageHeight, int destRegionWidth, int destRegionHeight, int destRegionX, int destRegionY);
+  #define PIXELTOOLS_H
+  #define getPixelOffset(width, height, x, y) ((((y) * (width)) + (x)) * 4)
+  #define getPixelDataSize(width, height) (((width) * (height)) * 4)
+  void copyPixelData(uint8_t *sourceImage, int sourceImageWidth, int sourceImageHeight, int sourceRegionWidth, int sourceRegionHeight, int sourceRegionX, int sourceRegionY, uint8_t *destImage, int destImageWidth, int destImageHeight, int destRegionWidth, int destRegionHeight, int destRegionX, int destRegionY);
 #endif
