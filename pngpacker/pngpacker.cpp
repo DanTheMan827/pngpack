@@ -48,7 +48,7 @@ bool fileExists(const char *fileName)
   {
     std::cout
       << "pngpack\n\n"
-      << "Copyright (C) " << COPYRIGHT_YEAR << " Daniel Radtke (DanTheMan827\n"
+      << "Copyright (C) " << COPYRIGHT_YEAR << " Daniel Radtke (DanTheMan827)\n\n"
       << "This program is free software: you can redistribute it and/or modify\n"
       << "it under the terms of the GNU General Public License as published by\n"
       << "the Free Software Foundation, either version 3 of the License, or\n"
