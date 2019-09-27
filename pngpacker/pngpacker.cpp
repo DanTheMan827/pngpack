@@ -33,16 +33,8 @@
   #define PATH_SEPARATOR '/'
 #endif
 
-#ifndef GIT_TAG
-  #define GIT_TAG ""
-#endif
-
-#ifndef GIT_COMMIT
-  #define GIT_COMMIT ""
-#endif
-
 #ifndef COPYRIGHT_YEAR
-  #define COPYRIGHT_YEAR ""
+  #define COPYRIGHT_YEAR "2019"
 #endif
 
 bool fileExists(const char *fileName)
@@ -88,8 +80,14 @@ int showUsage(const char *exename)
 {
   std::cout
     << "pngpack"
-    #ifndef NOVERSION
-      << " v" << GIT_TAG << ", commit " << GIT_COMMIT
+    #ifdef GIT_TAG
+      << " v" << GIT_TAG
+    #endif
+    #if defined(GIT_TAG) && defined(GIT_COMMIT)
+      << ","
+    #endif
+    #ifdef GIT_COMMIT
+      << " commit " << GIT_COMMIT
     #endif
     << "\n\nUnpack:\n  " << exename << " u packed.json packed.png unpacked/"
     << "\n\nPack:\n  " << exename << " p packed.json packed.png unpacked/"
