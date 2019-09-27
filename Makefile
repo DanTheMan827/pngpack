@@ -14,15 +14,15 @@ GIT_COMMIT := $(shell git rev-parse --short HEAD)$(shell git diff-index --quiet 
 GIT_TAG := $(shell git describe --abbrev=0 --tags)
 COPYRIGHT_YEAR := $(shell date +"%Y")
 VERSION_DEFINITIONS := -DGIT_TAG="\"$(GIT_TAG)\"" -DGIT_COMMIT="\"$(GIT_COMMIT)\"" -DCOPYRIGHT_YEAR="\"$(COPYRIGHT_YEAR)\""
-CPPFLAGS ?= $(INC_FLAGS) -fdata-sections -ffunction-sections -std=c++11 $(VERSION_DEFINITIONS)
-LDFLAGS ?= -Wl,-dead_strip
+CPPFLAGS ?= $(INC_FLAGS) -fdata-sections -ffunction-sections -std=c++11 $(VERSION_DEFINITIONS) $(EXTRA_CPPFLAGS)
+LDFLAGS ?= -Wl,-dead_strip $(EXTRA_LDFLAGS)
 
-all: $(BUILD_DIR)/$(TARGET_EXEC) $(BUILD_DIR)/$(TARGET_EXEC)-upx
-$(BUILD_DIR)/$(TARGET_EXEC): $(OBJS)
+all: $(BUILD_DIR)/$(TARGET_EXEC)$(EXE_EXT) $(BUILD_DIR)/$(TARGET_EXEC)-upx$(EXE_EXT)
+$(BUILD_DIR)/$(TARGET_EXEC)$(EXE_EXT): $(OBJS)
 	$(CROSS)g++ $(OBJS) -o $@ $(LDFLAGS)
 	$(CROSS)strip $@
 
-$(BUILD_DIR)/$(TARGET_EXEC)-upx: $(BUILD_DIR)/$(TARGET_EXEC)
+$(BUILD_DIR)/$(TARGET_EXEC)-upx$(EXE_EXT): $(BUILD_DIR)/$(TARGET_EXEC)$(EXE_EXT)
 	-rm "$@"
 	upx "$<" -o "$@" --lzma
 
@@ -31,12 +31,12 @@ testunpack: all
 	clear
 	mkdir -p test/packed/
 	-rm test/packed/*
-	$(BUILD_DIR)/$(TARGET_EXEC) u test/packed.json test/packed.png test/packed
+	$(BUILD_DIR)/$(TARGET_EXEC)$(EXE_EXT) u test/packed.json test/packed.png test/packed
 
 testpack: all
 	clear
 	mkdir -p test/packed/
-	$(BUILD_DIR)/$(TARGET_EXEC) p test/packed.json test/repacked.png test/packed
+	$(BUILD_DIR)/$(TARGET_EXEC)$(EXE_EXT) p test/packed.json test/repacked.png test/packed
 
 # assembly
 $(BUILD_DIR)/%.s.o: %.s

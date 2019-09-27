@@ -83,7 +83,10 @@ bool fileExists(const char *fileName)
 int showUsage(const char *exename)
 {
   std::cout
-    << "pngpack v" << GIT_TAG << ", commit " << GIT_COMMIT
+    << "pngpack"
+    #ifndef NOVERSION
+      << " v" << GIT_TAG << ", commit " << GIT_COMMIT
+    #endif
     << "\n\nUnpack:\n  " << exename << " u packed.json packed.png unpacked/"
     << "\n\nPack:\n  " << exename << " p packed.json packed.png unpacked/"
     #ifndef NOLICENSE
@@ -104,7 +107,14 @@ int main(int argc, char *argv[])
     // skip past the last /
     ++exename;   
   } else {
+    exename = strrchr(argv[0], '\\');
+    if (exename)
+    {
+      ++exename;
+    } else {
+
     exename = argv[0]; 
+    }
   }
   #ifndef NOLICENSE
     if (argc == 2 && strcmp(argv[1], "l") == 0) return showLicense();
