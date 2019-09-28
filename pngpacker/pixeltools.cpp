@@ -18,21 +18,20 @@
 */
 
 #include <iostream>
+#include <algorithm>
+#include <memory.h>
 #include "pixeltools.h"
 
 void copyPixelData(uint8_t* sourceImage, int sourceImageWidth, int sourceImageHeight, int sourceRegionWidth, int sourceRegionHeight, int sourceRegionX, int sourceRegionY, uint8_t* destImage, int destImageWidth, int destImageHeight, int destRegionWidth, int destRegionHeight, int destRegionX, int destRegionY)
 {
-  for (int sx = 0; sx < sourceRegionWidth; sx++)
-  {
-    for (int sy = 0; sy < sourceRegionHeight; sy++)
-    {
-      int sourceOffset = getPixelOffset(sourceImageWidth, sourceImageHeight, sourceRegionX + sx, sourceRegionY + sy);
-      int destOffset = getPixelOffset(destImageWidth, destImageHeight, destRegionX + sx, destRegionY + sy);
+  int finalWidth = std::min(sourceRegionWidth, destRegionWidth);
+  int finalHeight = std::min(sourceRegionHeight, destRegionHeight);
 
-      destImage[destOffset] = sourceImage[sourceOffset];
-      destImage[destOffset + 1] = sourceImage[sourceOffset + 1];
-      destImage[destOffset + 2] = sourceImage[sourceOffset + 2];
-      destImage[destOffset + 3] = sourceImage[sourceOffset + 3];
-    }
+  for (int sy = 0; sy < finalHeight; sy++)
+  {
+    int sourceOffset = getPixelOffset(sourceImageWidth, sourceImageHeight, sourceRegionX, sourceRegionY + sy);
+    int destOffset = getPixelOffset(destImageWidth, destImageHeight, destRegionX, destRegionY + sy);
+    
+    memcpy(&destImage[destOffset], &sourceImage[sourceOffset], 4 * finalWidth);
   }
 }
